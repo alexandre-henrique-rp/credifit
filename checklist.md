@@ -10,7 +10,7 @@ Aqui está um checklist detalhado em formato Markdown para a execução do desaf
     -   [x] Criar um arquivo `README.md` inicial para documentar o projeto.
 
 -   [ ] **Definições de Arquitetura e Tecnologia:**
-    -   [ ] Escolher o framework do Frontend: React.js ou Vue.js.
+    -   [x] Escolher o framework do Frontend: React.js ou Vue.js.
     -   [ ] Planejar a arquitetura da API RESTFul no Backend (NestJS).
     -   [ ] Planejar a estratégia de modelagem de dados.
     -   [ ] Planejar a estratégia de tratamento de erros para a API e integrações.
