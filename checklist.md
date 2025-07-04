@@ -4,10 +4,10 @@ Aqui está um checklist detalhado em formato Markdown para a execução do desaf
 
 ### **Fase 0: Planejamento e Configuração do Projeto**
 
--   [ ] **Configuração do Repositório:**
-    -   [ ] Criar um novo repositório Git.
-    -   [ ] Estruturar o repositório com pastas separadas para `backend` e `frontend`.
-    -   [ ] Criar um arquivo `README.md` inicial para documentar o projeto.
+-   [x] **Configuração do Repositório:**
+    -   [x] Criar um novo repositório Git.
+    -   [x] Estruturar o repositório com pastas separadas para `**backend**` e `**frontend**`.
+    -   [x] Criar um arquivo `README.md` inicial para documentar o projeto.
 
 -   [ ] **Definições de Arquitetura e Tecnologia:**
     -   [ ] Escolher o framework do Frontend: React.js ou Vue.js.
