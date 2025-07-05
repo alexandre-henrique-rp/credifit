@@ -9,11 +9,11 @@ Aqui está um checklist detalhado em formato Markdown para a execução do desaf
     -   [x] Estruturar o repositório com pastas separadas para `**backend**` e `**frontend**`.
     -   [x] Criar um arquivo `README.md` inicial para documentar o projeto.
 
--   [ ] **Definições de Arquitetura e Tecnologia:**
-    -   [x] Escolher o framework do Frontend: React.js ou Vue.js.
-    -   [ ] Planejar a arquitetura da API RESTFul no Backend (NestJS).
-    -   [ ] Planejar a estratégia de modelagem de dados.
-    -   [ ] Planejar a estratégia de tratamento de erros para a API e integrações.
+-   [x] **Definições de Arquitetura e Tecnologia:**
+    -   [x] Escolher o framework do Frontend: React.js.
+    -   [x] Planejar a arquitetura da API RESTFul no Backend (NestJS).
+    -   [x] Planejar a estratégia de modelagem de dados.
+    -   [x] Planejar a estratégia de tratamento de erros para a API e integrações.
 
 ### **Fase 1: Desenvolvimento do Backend (NestJS)**
 
@@ -52,7 +52,7 @@ Aqui está um checklist detalhado em formato Markdown para a execução do desaf
 ### **Fase 2: Desenvolvimento do Frontend (React/Vue)**
 
 -   [ ] **Estrutura e Componentes:**
-    -   [ ] Configurar o projeto Frontend (React ou Vue).
+    -   [x] Configurar o projeto Frontend (React).
     -   [ ] Criar um formulário para solicitação de empréstimo (valor e seleção de parcelas de 1 a 4).
     -   [ ] Exibir para o usuário o valor máximo que ele pode solicitar.
     -   [ ] Criar uma tela/componente para listar os empréstimos já solicitados pelo usuário, com seus respectivos status (aprovado/rejeitado).
@@ -77,11 +77,11 @@ Aqui está um checklist detalhado em formato Markdown para a execução do desaf
     -   [ ] Na gravação, comentar sobre:
         -   [ ] As escolhas de implementação e decisões técnicas.
         -   [ ] Os requisitos que foram cumpridos.
-        -   [ ] O que ficou pendente e por quê[cite: 60].
-        -   [ ] Os desafios enfrentados durante o desenvolvimento[cite: 60].
+        -   [ ] O que ficou pendente e por quê.
+        -   [ ] Os desafios enfrentados durante o desenvolvimento.
 
 -   [ ] **Revisão e Envio:**
-    -   [ ] Revisar todo o código em busca de limpeza e manutenibilidade[cite: 66, 69].
-    -   [ ] Garantir que todos os testes automatizados estão passando[cite: 72].
-    -   [ ] Verificar se os itens "O que não será avaliado" (Cadastro de funcionários/empresas e Autenticação) não foram implementados[cite: 74].
-    -   [ ] Enviar o link do repositório Git e o vídeo da solução para o e-mail informado[cite: 61].
+    -   [ ] Revisar todo o código em busca de limpeza e manutenibilidade.
+    -   [ ] Garantir que todos os testes automatizados estão passando.
+    -   [ ] Verificar se os itens "O que não será avaliado" (Cadastro de funcionários/empresas e Autenticação) não foram implementados.
+    -   [ ] Enviar o link do repositório Git e o vídeo da solução para o e-mail informado.
