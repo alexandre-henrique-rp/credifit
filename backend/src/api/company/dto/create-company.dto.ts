@@ -24,7 +24,7 @@ export class CreateCompanyDto {
     example: 'Minha Empresa e Serviços LTDA',
     required: false,
   })
-  @IsString()
+  @IsString({ message: 'A razão social deve ser uma string' })
   @IsOptional()
   @Transform(({ value }: { value: string }) => (value ? value.trim() : value))
   razaoSocial?: string;
@@ -34,7 +34,7 @@ export class CreateCompanyDto {
     example: 'contato@minhaempresa.com',
     required: false,
   })
-  @IsEmail()
+  @IsEmail({ message: 'O e-mail deve ser válido' })
   @IsOptional()
   @Transform(({ value }: { value: string }) =>
     value ? value.trim().toLowerCase() : value,
