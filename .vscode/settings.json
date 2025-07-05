@@ -1,8 +1,29 @@
 {
   "cSpell.words": [
     "Araujo",
+    "betina",
     "Credifit",
     "emprestimo",
-    "funcionario"
-  ]
+    "funcionario",
+    "tailwindcss"
+  ],
+  "a-file-icon-vscode.activeIconPacks": [
+    "nest",
+    "angular",
+    "rails",
+    "react"
+  ],
+  "a-file-icon-vscode.filesAssociations": {
+    "*.ts": "typescript",
+    "*.tsx": "typescript",
+    "*.js": "javascript",
+    "*.jsx": "javascript",
+    "*.json": "json",
+    "*.html": "html",
+    "*.css": "css",
+    "*.scss": "scss",
+    "*.less": "less",
+    "*.md": "markdown",
+    "*.go": "go"
+  }
 }
