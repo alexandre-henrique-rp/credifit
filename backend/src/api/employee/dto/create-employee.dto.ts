@@ -15,7 +15,7 @@ export class CreateEmployeeDto {
   @ApiProperty({ description: 'Nome do funcionário', example: 'João da Silva' })
   @IsString()
   @IsNotEmpty()
-  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
+  @Transform(({ value }: { value: string }) => (value ? value.trim() : value))
   name: string;
 
   @ApiProperty({
@@ -25,8 +25,8 @@ export class CreateEmployeeDto {
   @IsString()
   @IsNotEmpty()
   @Matches(/^[0-9]{11}$/, { message: 'O CPF deve conter apenas 11 números' })
-  @Transform(({ value }) =>
-    typeof value === 'string' ? value.replace(/\D/g, '').trim() : value,
+  @Transform(({ value }: { value: string }) =>
+    value ? value.replace(/\D/g, '').trim() : value,
   )
   cpf: string;
 
@@ -37,8 +37,8 @@ export class CreateEmployeeDto {
   })
   @IsEmail()
   @IsOptional()
-  @Transform(({ value }) =>
-    typeof value === 'string' ? value.trim().toLowerCase() : value,
+  @Transform(({ value }: { value: string }) =>
+    value ? value.trim().toLowerCase() : value,
   )
   email?: string;
 
