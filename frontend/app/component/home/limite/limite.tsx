@@ -72,6 +72,7 @@ export function Limite({ onLimiteChange }: LimiteProps) {
         >
           Simular empréstimo
         </button>
+        
       </div>
     </div>
   );
