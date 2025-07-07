@@ -1,10 +1,8 @@
-'use client';
-
 import React, { useState } from 'react';
 import { Limite } from './limite/limite';
 import { InstallmentsComponent } from './parcelas';
 import { createLoan } from '../../functions/api';
-import { Loan } from '../../types';
+import type { Loan } from '../../types';
 
 const LoanSimulationCard: React.FC = () => {
   const [loanValue, setLoanValue] = useState<number>(0);

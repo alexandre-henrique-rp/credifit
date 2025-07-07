@@ -34,7 +34,7 @@ export class CreateCompanyDto {
     example: 'contato@minhaempresa.com',
     required: false,
   })
-  @IsEmail({ message: 'O e-mail deve ser válido' })
+  @IsEmail({}, { message: 'O e-mail deve ser válido' })
   @IsOptional()
   @Transform(({ value }: { value: string }) =>
     value ? value.trim().toLowerCase() : value,

@@ -1,6 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsInt, IsNotEmpty, IsNumber, IsPositive, Max, Min } from 'class-validator';
+import {
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  Max,
+  Min,
+} from 'class-validator';
+import { LoanStatus } from '@prisma/client';
 
 export class CreateLoanDto {
   @ApiProperty({
@@ -32,4 +42,13 @@ export class CreateLoanDto {
   @IsNotEmpty()
   @Type(() => Number)
   employeeId: number;
+
+  @ApiProperty({
+    description: 'O status do pagamento',
+    enum: LoanStatus,
+    example: LoanStatus.PENDING,
+  })
+  @IsEnum(LoanStatus)
+  @IsOptional()
+  status: LoanStatus;
 }

@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { LoanStatus } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateLoanDto } from './dto/create-loan.dto';
 import { UpdateLoanDto } from './dto/update-loan.dto';
@@ -9,24 +8,23 @@ export class LoanService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createLoanDto: CreateLoanDto) {
-    const { employeeId, amount } = createLoanDto;
+    const { employeeId, amount, installments } = createLoanDto;
 
     const employee = await this.prisma.employee.findUnique({
       where: { id: employeeId },
     });
 
     if (!employee) {
-      throw new NotFoundException(`Funcionário com ID ${employeeId} não encontrado.`);
+      throw new NotFoundException(
+        `Funcionário com ID ${employeeId} não encontrado.`,
+      );
     }
-
-    // Lógica de negócio: aprovar ou rejeitar com base no salário
-    const maxLoanAmount = employee.salary * 10;
-    const status = amount > maxLoanAmount ? LoanStatus.REJECTED : LoanStatus.APPROVED;
 
     return this.prisma.loan.create({
       data: {
-        ...createLoanDto,
-        status,
+        employeeId,
+        installments,
+        value: amount,
       },
     });
   }
@@ -50,7 +48,6 @@ export class LoanService {
 
   async update(id: number, updateLoanDto: UpdateLoanDto) {
     await this.findOne(id); // Garante que o empréstimo existe
-
     return this.prisma.loan.update({
       where: { id },
       data: updateLoanDto,

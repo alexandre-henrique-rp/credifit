@@ -3,6 +3,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import { useAuth } from '~/context/auth/AuthContext';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 // 1. Validation Schema with Zod
 const loginSchema = z.object({
@@ -90,9 +93,18 @@ export default function LoginComponent() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log(data);
-    // TODO: Handle login logic here
+    const { signIn } = useAuth();
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: LoginFormInputs) => {
+    try {
+      await signIn(data);
+      toast.success('Login realizado com sucesso!');
+      navigate('/'); // Redirect to home page after login
+    } catch (error) {
+      toast.error('Falha no login. Verifique suas credenciais.');
+      console.error(error);
+    }
   };
 
   return (
