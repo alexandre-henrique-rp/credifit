@@ -23,6 +23,12 @@ async function bootstrap(): Promise<void> {
     }),
   );
 
+  app.enableCors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
   await app.listen(process.env.PORT ?? 3000).then(() => {
     console.log(
       `Application is running on: http://localhost:${process.env.PORT ?? 3000}`,

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -15,11 +16,13 @@ import {
   ApiOkResponse,
   ApiNotFoundResponse,
   ApiConflictResponse,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { EmployeeService } from './employee.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { EmployeeEntity } from './entities/employee.entity';
+import { AuthGuard } from '../auth/auth.guard';
 
 @ApiTags('Funcionários (Employee)')
 @Controller('employee')
@@ -35,6 +38,8 @@ export class EmployeeController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Listar todos os funcionários' })
   @ApiOkResponse({ type: [EmployeeEntity] })
   findAll() {
@@ -42,6 +47,8 @@ export class EmployeeController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Buscar um funcionário pelo ID' })
   @ApiOkResponse({ type: EmployeeEntity })
   @ApiNotFoundResponse({ description: 'Funcionário não encontrado' })
@@ -50,6 +57,8 @@ export class EmployeeController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Atualizar um funcionário pelo ID' })
   @ApiOkResponse({ type: EmployeeEntity })
   @ApiNotFoundResponse({ description: 'Funcionário não encontrado' })
@@ -62,6 +71,8 @@ export class EmployeeController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Remover um funcionário pelo ID' })
   @ApiOkResponse({ description: 'Funcionário removido com sucesso' })
   @ApiNotFoundResponse({ description: 'Funcionário não encontrado' })

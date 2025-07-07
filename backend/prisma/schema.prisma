@@ -15,8 +15,8 @@ model Company {
   id          Int        @id @default(autoincrement())
   name        String
   razaoSocial String?
-  email       String?
-  password    String?
+  email       String     @unique
+  password    String
   cnpj        String     @unique
   employees   Employee[]
   createdAt   DateTime   @default(now())
@@ -27,8 +27,8 @@ model Employee {
   id        Int      @id @default(autoincrement())
   name      String
   cpf       String   @unique
-  email     String?
-  password  String?
+  email     String   @unique
+  password  String
   salary    Float // Salário do funcionário, com 2 casas decimais depois do ponto
   company   Company  @relation(fields: [companyId], references: [id])
   companyId Int
@@ -38,14 +38,14 @@ model Employee {
 }
 
 model Loan {
-  id           Int      @id @default(autoincrement())
-  employee     Employee @relation(fields: [employeeId], references: [id])
+  id           Int        @id @default(autoincrement())
+  employee     Employee   @relation(fields: [employeeId], references: [id])
   employeeId   Int
   value        Float // Valor do empréstimo, com 2 casas decimais depois do ponto
   installments Int // Número de parcelas
   status       LoanStatus @default(PENDING)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }
 
 enum LoanStatus {

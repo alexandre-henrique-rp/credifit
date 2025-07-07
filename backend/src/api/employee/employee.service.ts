@@ -32,7 +32,7 @@ export class EmployeeService {
       );
     }
 
-    const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const employee = await this.prisma.employee.create({
       data: {

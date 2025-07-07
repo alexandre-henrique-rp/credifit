@@ -8,6 +8,8 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+import { AuthProvider } from "./context/auth/AuthContext";
+import { Toaster } from "react-hot-toast";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -41,8 +43,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * Componente raiz da aplicação
+ * 
+ * Envolve toda a aplicação com o AuthProvider para garantir que
+ * o contexto de autenticação esteja disponível em todos os componentes.
+ * Também inclui o sistema de notificações (Toaster).
+ */
 export default function App() {
-  return <Outlet />;
+  return (
+    <AuthProvider>
+      <Toaster position="top-right" />
+      <Outlet />
+    </AuthProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

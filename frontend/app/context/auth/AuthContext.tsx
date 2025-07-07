@@ -1,15 +1,26 @@
-import { createContext, useContext, useState, useEffect, type ReactNode, useCallback } from 'react';
-import axios from 'axios';
+import {
+  createContext,
+  useState,
+  useEffect,
+  type ReactNode,
+  useCallback
+} from "react";
 
-// Define the shape of the user object
+import apiClient from "~/api";
+
+/**
+ * Interface que define a estrutura do usuário autenticado
+ */
 interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
-  userType: 'employee' | 'company';
+  userType: "employee" | "company";
 }
 
-// Define the shape of the AuthContext
+/**
+ * Interface do contexto de autenticação
+ */
 interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
@@ -18,46 +29,97 @@ interface AuthContextType {
   loading: boolean;
 }
 
-// Create the context with a default value
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+/**
+ * Contexto de autenticação
+ */
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
-// API client setup (can be in a separate file)
-const apiClient = axios.create({
-  baseURL: 'http://localhost:3001/api', // Adjust this to your backend URL
-});
-
-// AuthProvider component
+/**
+ * Provider do contexto de autenticação
+ * Gerencia o estado de autenticação e fornece métodos para login/logout
+ */
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  /**
+   * Efeito para verificar e recuperar sessão existente na inicialização
+   */
+  /**
+   * Efeito para verificar e recuperar sessão existente na inicialização
+   */
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      // Here you would typically fetch the user profile
-      // For now, we'll assume the token is valid and decode it or fetch user
-      // This part needs to be adapted to your backend logic
-      // e.g., fetch('/api/profile').then(setUserFromResponse);
-    }
-    setLoading(false);
+    const initializeAuth = async () => {
+      const token = localStorage.getItem("authToken");
+      const userString = localStorage.getItem("user");
+
+      if (token && userString) {
+        try {
+          const user = JSON.parse(userString);
+
+          // Garante que temos um usuário válido no localStorage
+          if (user?.id && user?.userType) {
+            // Valida o token e busca os dados mais recentes do usuário
+            const responseData = await apiClient.auth.me(user.id, user.userType);
+            // A resposta da API provavelmente contém o usuário em uma chave 'user'
+            setUser(responseData.user || responseData);
+          } else {
+            throw new Error("Dados de usuário inválidos no localStorage");
+          }
+        } catch (error) {
+          // Se a validação falhar (token expirado, etc.), limpa tudo
+          console.warn("Falha ao re-autenticar, limpando sessão:", error);
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("user");
+          setUser(null);
+        }
+      }
+
+      // Finaliza o carregamento após a tentativa de autenticação
+      setLoading(false);
+    };
+
+    initializeAuth();
   }, []);
 
+  /**
+   * Método para realizar login do usuário
+   */
   const signIn = useCallback(async (data: any) => {
-    const { email, password, userType } = data;
-    // The endpoint might vary based on userType
-    const response = await apiClient.post(`/auth/login`, { email, password, userType });
-    const { token, user: userData } = response.data;
-
-    localStorage.setItem('authToken', token);
-    apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    setUser(userData);
+    try {
+      const { email, password, userType } = data;
+      const response = await apiClient.auth.login(email, password, userType);
+      const { token, user } = response;
+      if (token && user) {
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
+        
+      }
+    } catch (error) {
+      console.error("Erro no login:", error);
+      throw error; // Re-throw para que o componente possa tratar
+    }
   }, []);
 
-  const signOut = useCallback(() => {
-    setUser(null);
-    localStorage.removeItem('authToken');
-    delete apiClient.defaults.headers.common['Authorization'];
+  /**
+   * Método para realizar logout do usuário
+   */
+  const signOut = useCallback(async () => {
+    try {
+      // Chama o endpoint de logout (se existir)
+      await apiClient.auth.logout();
+    } catch (error) {
+      console.warn("Erro no logout:", error);
+    } finally {
+      // Limpa o estado local independentemente do resultado
+      setUser(null);
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("user");
+      
+    }
   }, []);
 
   const value = {
@@ -65,17 +127,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user,
     signIn,
     signOut,
-    loading,
+    loading
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-// Custom hook to use the AuthContext
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 };

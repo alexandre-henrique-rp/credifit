@@ -13,6 +13,10 @@ export class CompanyService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createCompanyDto: CreateCompanyDto) {
+    console.log(
+      '🚀 ~ CompanyService ~ create ~ createCompanyDto:',
+      createCompanyDto,
+    );
     const { cnpj, password, ...companyData } = createCompanyDto;
 
     const existingCompany = await this.prisma.company.findUnique({
@@ -23,11 +27,8 @@ export class CompanyService {
       throw new ConflictException('Uma empresa com este CNPJ já existe.');
     }
 
-    let hashedPassword: string | undefined;
-    if (password) {
-      const saltRounds = 10;
-      hashedPassword = await bcrypt.hash(password, saltRounds);
-    }
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const company = await this.prisma.company.create({
       data: {

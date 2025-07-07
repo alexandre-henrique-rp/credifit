@@ -35,11 +35,10 @@ export class CreateCompanyDto {
     required: false,
   })
   @IsEmail({}, { message: 'O e-mail deve ser válido' })
-  @IsOptional()
   @Transform(({ value }: { value: string }) =>
     value ? value.trim().toLowerCase() : value,
   )
-  email?: string;
+  email: string;
 
   @ApiProperty({
     description: 'Senha de acesso da empresa (opcional, mínimo 6 caracteres)',
@@ -47,9 +46,8 @@ export class CreateCompanyDto {
     required: false,
   })
   @IsString()
-  @IsOptional()
   @Length(6, 20, { message: 'A senha deve ter entre 6 e 20 caracteres' })
-  password?: string;
+  password: string;
 
   @ApiProperty({
     description: 'CNPJ da empresa (somente números)',

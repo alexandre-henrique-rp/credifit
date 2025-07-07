@@ -7,9 +7,11 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -21,6 +23,7 @@ import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { Company } from './entities/company.entity';
+import { AuthGuard } from '../auth/auth.guard';
 
 @ApiTags('Company')
 @Controller('company')
@@ -40,6 +43,8 @@ export class CompanyController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Lista todas as empresas' })
   @ApiOkResponse({
     description: 'Lista de empresas.',
@@ -51,6 +56,8 @@ export class CompanyController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Busca uma empresa pelo ID' })
   @ApiOkResponse({ description: 'Empresa encontrada.', type: Company })
   @ApiNotFoundResponse({ description: 'Empresa não encontrada.' })
@@ -59,6 +66,8 @@ export class CompanyController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Atualiza uma empresa pelo ID' })
   @ApiOkResponse({
     description: 'Empresa atualizada com sucesso.',
@@ -74,6 +83,8 @@ export class CompanyController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Remove uma empresa pelo ID' })
   @ApiOkResponse({ description: 'Empresa removida com sucesso.' })
   @ApiNotFoundResponse({ description: 'Empresa não encontrada.' })

@@ -4,7 +4,6 @@ import {
   IsEmail,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsPositive,
   IsString,
   Length,
@@ -36,11 +35,10 @@ export class CreateEmployeeDto {
     required: false,
   })
   @IsEmail()
-  @IsOptional()
   @Transform(({ value }: { value: string }) =>
     value ? value.trim().toLowerCase() : value,
   )
-  email?: string;
+  email: string;
 
   @ApiProperty({
     description:
@@ -49,9 +47,8 @@ export class CreateEmployeeDto {
     required: false,
   })
   @IsString()
-  @IsOptional()
   @Length(6, 20, { message: 'A senha deve ter entre 6 e 20 caracteres' })
-  password?: string;
+  password: string;
 
   @ApiProperty({ description: 'Salário do funcionário', example: 3500.5 })
   @IsNumber()
