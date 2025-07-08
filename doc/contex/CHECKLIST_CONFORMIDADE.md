@@ -94,8 +94,8 @@ Este documento apresenta um checklist completo baseado nos requisitos do desafio
 ### ⚠️ Sistema de Score
 - [x] **Módulo de análise** - Controller e Service criados
 - [x] **Endpoint /analysis** - POST implementado
-- [ ] **Lógica correta** - Baseada em salário (não valor)
-- [ ] **Integração com API externa** - Mock API score
+- [x] **Lógica correta** - Baseada em salário (não valor)
+- [x] **Integração com API externa** - Mock API score
 
 ### ⚠️ Status de Empréstimos
 - [x] **Enum LoanStatus** - PENDING, PROCESSING, PAID, REJECTED
