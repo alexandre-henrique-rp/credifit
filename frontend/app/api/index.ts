@@ -125,16 +125,21 @@ const apiClient = {
           email: rest.email,
           password: rest.password,
           salary: rest.salary,
-          company: rest.company
+          companyCnpj: rest.companyCnpj
         };
         
         const response = await baseApi.post('/employee', employeeData);
         return response.data;
       }
-    } catch (error) {
-      console.error('Erro no registro:', error);
-      throw error;
+    } catch (error: any) {
+      console.error('Erro no registro:', error.response.data.message);
+      throw error.response.data.message || error.message || 'Erro ao registrar usuário';
     }
+  },
+
+  getLoans: async (id: number) => {
+    const response = await baseApi.get(`/employee/loan/${id}`);
+    return response.data;
   },
 
 };

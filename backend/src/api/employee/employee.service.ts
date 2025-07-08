@@ -14,7 +14,7 @@ export class EmployeeService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createEmployeeDto: CreateEmployeeDto) {
-    const { cpf, companyId, password } = createEmployeeDto;
+    const { cpf, companyCnpj, password, ...rest } = createEmployeeDto;
 
     const existingEmployee = await this.prisma.employee.findUnique({
       where: { cpf },
@@ -24,11 +24,11 @@ export class EmployeeService {
     }
 
     const company = await this.prisma.company.findUnique({
-      where: { id: companyId },
+      where: { cnpj: companyCnpj },
     });
     if (!company) {
       throw new NotFoundException(
-        `Empresa com ID ${companyId} não encontrada.`,
+        `Empresa com CNPJ ${companyCnpj} não encontrada.`,
       );
     }
 
@@ -36,8 +36,10 @@ export class EmployeeService {
 
     const employee = await this.prisma.employee.create({
       data: {
-        ...createEmployeeDto,
+        ...rest,
+        cpf,
         password: hashedPassword,
+        companyId: company.id,
       },
     });
 
@@ -108,5 +110,13 @@ export class EmployeeService {
     await this.findOne(id); // Check if employee exists
     await this.prisma.employee.delete({ where: { id } });
     return { message: `Funcionário com ID ${id} removido com sucesso.` };
+  }
+
+  async employeeLoans(id: number) {
+    const employee = await this.prisma.employee.findUnique({ where: { id } });
+    if (!employee) {
+      throw new NotFoundException(`Funcionário com ID ${id} não encontrado.`);
+    }
+    return this.prisma.loan.findMany({ where: { employeeId: id } });
   }
 }

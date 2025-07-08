@@ -12,5 +12,5 @@ export interface RegisterData {
     // Campos específicos para funcionário
     cpf?: string;
     salary?: number;
-    company?: string; // Backend espera companyId, não companyCnpj
+    companyCnpj?: string; // Backend espera companyId, não companyCnpj
 }

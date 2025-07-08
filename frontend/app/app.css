@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+@layer components {
+  /* Classe para containers visuais, como caixas de diálogo e seções */
+  .card {
+    @apply bg-white rounded-lg shadow-md;
+  }
+
+  /* Classe base para botões */
+  .btn {
+    @apply font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out flex items-center justify-center gap-2;
+  }
+
+  /* Variação de botão primário, para ações principais */
+  .btn-primary {
+    @apply bg-[#057D88] hover:bg-[#046a74] text-white shadow-sm;
+  }
+
+  /* Variação de botão secundário, para ações como 'Voltar' */
+  .btn-outline {
+    @apply bg-transparent border border-[#057D88] text-[#057D88] hover:bg-teal-50;
+  }
+}
+
 html,
 body {
   width: 100vw;

@@ -11,6 +11,7 @@ interface User {
   password: string;
   name: string;
   id: number;
+  companyId?: number; // Apenas para funcionários
 }
 
 @Injectable()
@@ -44,7 +45,8 @@ export class AuthService {
       id: user.id,
       name: user.name,
       email: user.email,
-      userType,
+      userType: userType || 'employee',
+      ...(userType === 'employee' && user.companyId && { companyId: user.companyId }),
     };
 
     const token = this.jwtService.sign(payload);
@@ -63,7 +65,7 @@ export class AuthService {
   async getEmployee(email: string) {
     const employee = await this.prisma.employee.findUnique({
       where: { email },
-      select: { id: true, name: true, email: true, password: true },
+      select: { id: true, name: true, email: true, password: true, companyId: true },
     });
     return employee ?? null;
   }

@@ -8,6 +8,7 @@ import {
   Delete,
   ParseIntPipe,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -22,6 +23,7 @@ import { CreateLoanDto } from './dto/create-loan.dto';
 import { UpdateLoanDto } from './dto/update-loan.dto';
 import { LoanEntity } from './entities/loan.entity';
 import { AuthGuard } from '../auth/auth.guard';
+import { AuthUser } from '../auth/auth.types';
 
 @ApiTags('Empréstimos (Loan)')
 @Controller('loan')
@@ -34,8 +36,8 @@ export class LoanController {
   @ApiOperation({ summary: 'Criar um novo empréstimo' })
   @ApiCreatedResponse({ type: LoanEntity })
   @ApiNotFoundResponse({ description: 'Funcionário não encontrado' })
-  create(@Body() createLoanDto: CreateLoanDto) {
-    return this.loanService.create(createLoanDto);
+  create(@Body() createLoanDto: CreateLoanDto, @Request() req: { user: AuthUser }) {
+    return this.loanService.create(createLoanDto, req.user);
   }
 
   @Get()
@@ -78,5 +80,15 @@ export class LoanController {
   @ApiNotFoundResponse({ description: 'Empréstimo não encontrado' })
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.loanService.remove(id);
+  }
+
+  @Get('margin/:employeeId')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Consultar margem consignável disponível' })
+  @ApiOkResponse({ description: 'Informações de margem consignável' })
+  @ApiNotFoundResponse({ description: 'Funcionário não encontrado' })
+  getConsignableMargin(@Param('employeeId', ParseIntPipe) employeeId: number) {
+    return this.loanService.getConsignableInfo(employeeId);
   }
 }

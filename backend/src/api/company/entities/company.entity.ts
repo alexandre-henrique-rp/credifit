@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Company as CompanyModel } from '@prisma/client';
-import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsNumber, IsOptional, IsString, IsBoolean } from 'class-validator';
 
 export class Company implements Omit<CompanyModel, 'password'> {
   @ApiProperty({ description: 'ID da empresa', example: 1 })
@@ -39,6 +39,15 @@ export class Company implements Omit<CompanyModel, 'password'> {
   @IsString()
   @IsOptional()
   cnpj: string;
+
+  @ApiProperty({ 
+    description: 'Indica se a empresa é conveniada/parceira da Credifit', 
+    example: true,
+    default: true 
+  })
+  @IsBoolean()
+  @IsOptional()
+  isPartner: boolean;
 
   @ApiProperty({ description: 'Data de criação do registro' })
   @IsDate()

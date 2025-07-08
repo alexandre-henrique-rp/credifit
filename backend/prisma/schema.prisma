@@ -18,6 +18,7 @@ model Company {
   email       String     @unique
   password    String
   cnpj        String     @unique
+  isPartner   Boolean    @default(true) // Indica se a empresa é conveniada/parceira da Credifit
   employees   Employee[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
@@ -49,8 +50,10 @@ model Loan {
 }
 
 enum LoanStatus {
-  PAID
-  PENDING
-  PROCESSING
-  REJECTED
+  PENDING    // Aguardando processamento
+  PROCESSING // Sendo processado no gateway
+  APPROVED   // Aprovado pelo gateway
+  REJECTED   // Rejeitado pelo gateway
+  FAILED     // Falha no processamento
+  PAID       // Empréstimo quitado
 }

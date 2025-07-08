@@ -17,6 +17,10 @@ interface User {
   email: string;
   userType: "employee" | "company";
 }
+interface Loan {
+  id: number;
+  
+}
 
 /**
  * Interface do contexto de autenticação
@@ -24,6 +28,7 @@ interface User {
 interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
+  loan: Loan | null;
   signIn: (data: any) => Promise<void>;
   signOut: () => void;
   loading: boolean;
@@ -43,6 +48,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loan, setLoan] = useState<Loan | null>(null);
 
   /**
    * Efeito para verificar e recuperar sessão existente na inicialização
@@ -63,8 +69,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           if (user?.id && user?.userType) {
             // Valida o token e busca os dados mais recentes do usuário
             const responseData = await apiClient.auth.me(user.id, user.userType);
-            // A resposta da API provavelmente contém o usuário em uma chave 'user'
-            setUser(responseData.user || responseData);
+            const DataUser = {
+              ...responseData.user,
+              userType: user.userType,
+            }
+            setUser(DataUser);
+
+            if (user.userType === "employee") {
+              const loanResponse = await apiClient.getLoans(user.id);
+              const loanData = loanResponse.data;
+              setLoan(loanData);
+            }
           } else {
             throw new Error("Dados de usuário inválidos no localStorage");
           }
@@ -125,6 +140,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     isAuthenticated: !!user,
     user,
+    loan,
     signIn,
     signOut,
     loading

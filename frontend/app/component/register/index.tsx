@@ -169,9 +169,7 @@ const RegisterComponent: React.FC = () => {
             email: employeeData.email,
             password: employeeData.password,
             salary: parseFloat(employeeData.salary),
-            // TODO: Implementar busca de companyId pelo CNPJ
-            // Por enquanto, vamos usar um valor temporário
-            companyId: 1 // Será substituído pela lógica de busca
+            companyCnpj: employeeData.companyCnpj.replace(/\D/g, '')
           };
 
       // Aqui você faria a chamada para a API
@@ -183,9 +181,9 @@ const RegisterComponent: React.FC = () => {
         toast.success('Cadastro realizado com sucesso!');
         navigate('/login');
       }
-
     } catch (error: any) {
-      toast.error(error.message || 'Erro ao realizar cadastro');
+      console.log("🚀 ~ handleSubmit ~ error:", error)
+      toast.error(error || 'Erro ao realizar cadastro');
     } finally {
       setLoading(false);
     }

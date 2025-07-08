@@ -57,11 +57,15 @@ export class CreateEmployeeDto {
   salary: number;
 
   @ApiProperty({
-    description: 'ID da empresa à qual o funcionário pertence',
-    example: 1,
+    description: 'CNPJ da empresa em que o funcionário trabalha',
+    example: '12345678901234',
   })
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  @Type(() => Number)
-  companyId: number;
+  @Matches(/^[0-9]{14}$/, { message: 'O CNPJ deve conter apenas 14 números' })
+  @Transform(({ value }: { value: string }) =>
+    value ? value.replace(/\D/g, '').trim() : value,
+  )
+  @Type(() => String)
+  companyCnpj: string;
 }

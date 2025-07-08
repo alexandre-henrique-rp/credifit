@@ -5,6 +5,7 @@ export interface AuthUser {
   name: string;
   email: string;
   userType: string;
+  companyId?: number; // ID da empresa, presente apenas para funcionários
 }
 
 export interface AuthResponse {

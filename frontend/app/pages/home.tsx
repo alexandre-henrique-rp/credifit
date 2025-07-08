@@ -1,6 +1,6 @@
 import type { Route } from "./+types/home";
-import LoanSimulationCard from "~/component/home";
-import { ProtectedRoute } from "../components/auth/ProtectedRoute";
+import { ProtectedRoute } from "~/components/auth/ProtectedRoute";
+import HomeComponent from "~/component/home";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,16 +9,10 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-/**
- * Página Principal (Home)
- * 
- * Esta página é protegida e só pode ser acessada por usuários autenticados.
- * Contém o simulador de empréstimos e outras funcionalidades principais.
- */
 export default function Home() {
   return (
-    <ProtectedRoute>
-      <LoanSimulationCard />
-    </ProtectedRoute>
+     <ProtectedRoute>
+      <HomeComponent />
+     </ProtectedRoute>
   );
-}
+};

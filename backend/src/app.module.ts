@@ -5,6 +5,7 @@ import { EmployeeModule } from './api/employee/employee.module';
 import { LoanModule } from './api/loan/loan.module';
 import { AnalysisModule } from './api/analysis/analysis.module';
 import { AuthModule } from './api/auth/auth.module';
+import { PaymentModule } from './api/payment/payment.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AuthModule } from './api/auth/auth.module';
     LoanModule,
     AnalysisModule,
     AuthModule,
+    PaymentModule,
   ],
 })
 export class AppModule {}

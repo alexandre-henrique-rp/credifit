@@ -56,6 +56,15 @@ export class EmployeeController {
     return this.employeeService.findOne(id);
   }
 
+  @Get('loans/:id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Listar todos os empréstimos do funcionário' })
+  @ApiOkResponse({ type: [EmployeeEntity] })
+  employeeLoans(@Param('id', ParseIntPipe) id: number) {
+    return this.employeeService.employeeLoans(id);
+  }
+
   @Patch(':id')
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
